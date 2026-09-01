@@ -1,0 +1,102 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "menu": "Menú",
+    "market": "Mercado",
+    "contact": "Contacto"
+  },
+  "theme": {
+    "toggleLight": "Activar modo claro",
+    "toggleDark": "Activar modo oscuro"
+  },
+  "language": {
+    "label": "Idioma",
+    "ptBR": "Português",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "heroTitle": "El mejor pastel de la ciudad",
+    "heroSubtitle": "Fresco, crujiente y lleno de sabor, hecho en el momento para ti.",
+    "ctaMenu": "Ver Menú",
+    "highlightsTitle": "Destacados",
+    "aboutTitle": "Sobre nosotros",
+    "aboutText": "Pastel da Hora es el lugar donde la tradición y el sabor se encuentran. Desde el principio, nuestro compromiso es ofrecer pasteles frescos y deliciosos, preparados al momento con ingredientes seleccionados.",
+    "hoursTitle": "Horario de atención",
+    "hoursWeekdays": "Lunes a Viernes: 10h a 22h",
+    "hoursWeekends": "Sábado y Domingo: 10h a 23h"
+  },
+  "menu": {
+    "title": "Menú",
+    "categories": {
+      "all": "Todos",
+      "savory": "Salados",
+      "traditional": "Tradicionales",
+      "custom": "Arma el tuyo",
+      "sweet": "Dulces",
+      "drinks": "Bebidas"
+    },
+    "price": "R$ {value}",
+    "viewDetails": "Ver detalles",
+    "noItems": "No se encontraron elementos en esta categoría.",
+    "buildAction": "Armar"
+  },
+  "market": {
+    "title": "Mercado"
+  },
+  "footer": {
+    "rights": "© {year} Pastel da Hora. Todos los derechos reservados.",
+    "address": "Rua das Pastéis, 123 — Centro",
+    "phone": "(11) 9 9999-9999"
+  },
+  "accessibility": {
+    "skipToContent": "Saltar al contenido",
+    "openMenu": "Abrir menú de navegación",
+    "closeMenu": "Cerrar menú de navegación",
+    "closeModal": "Cerrar modal"
+  },
+  "errors": {
+    "notFound": "Página no encontrada",
+    "notFoundDescription": "La página que estás buscando no existe.",
+    "backHome": "Volver al inicio",
+    "generic": "Algo salió mal",
+    "tryAgain": "Intentar de nuevo"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Háblanos o encúentranos.",
+    "addressTitle": "Dónde estamos",
+    "addressValue": "Rua das Pastéis, 123 — Centro, São Paulo — SP",
+    "phoneTitle": "Teléfono",
+    "phoneValue": "(11) 9 9999-9999",
+    "whatsapp": "Chatear en WhatsApp",
+    "hoursTitle": "Horario",
+    "weekdays": "Lun — Vie: 10h a 22h",
+    "weekends": "Sáb — Dom: 10h a 23h",
+    "socialTitle": "Redes Sociales",
+    "instagram": "@pasteldahora",
+    "mapLink": "Ver en el mapa"
+  },
+  "metadata": {
+    "homeTitle": "Pastel da Hora — El mejor pastel de la ciudad",
+    "homeDescription": "Menú digital del Pastel da Hora. Pasteles frescos y crujientes hechos al momento para ti.",
+    "menuTitle": "Menú — Pastel da Hora",
+    "menuDescription": "Explora todos los sabores: pasteles salados, dulces y bebidas frías.",
+    "marketTitle": "Mercado — Pastel da Hora",
+    "marketDescription": "Productos e ingredientes de Pastel da Hora.",
+    "contactTitle": "Contacto — Pastel da Hora",
+    "contactDescription": "Contáctanos o vísitanos. ¡Te estamos esperando!"
+  },
+  "builder": {
+    "title": "Arma tu Pastel",
+    "stepSize": "Elige el tamaño",
+    "stepFillings": "Elige los rellenos",
+    "size5": "Hasta 5 rellenos",
+    "size8": "Hasta 8 rellenos",
+    "size5Hint": "Personaliza con hasta 5 rellenos — R$ 12,00",
+    "size8Hint": "Personaliza con hasta 8 rellenos — R$ 14,00",
+    "back": "Volver",
+    "confirm": "\u00a1Listo, anotar pedido!",
+    "summarySize": "Tamaño"
+  }
+}

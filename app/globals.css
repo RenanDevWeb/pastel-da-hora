@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+/* ─── Dark mode via classe .dark (next-themes) ────────────── */
+@variant dark (&:where(.dark, .dark *));
+
+/* ─── Dark mode: fallback via prefers-color-scheme (pré-hidratação JS) ── */
+/* :not(.light) evita sobrescrever seleção manual de tema claro */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background:         #0F0F0F;
+    --background-subtle:  #171717;
+    --surface:            #1E1E1E;
+    --border:             #2D2D2D;
+    --foreground:         #F2F2F2;
+    --foreground-muted:   #9A9A9A;
+    color-scheme: dark;
+  }
+}
+
+/* ─── Tokens da marca ─────────────────────────────────────── */
+:root {
+  /* Cores da marca */
+  --brand-yellow:       #FACC15;
+  --brand-yellow-dark:  #EAB308;
+  --brand-red:          #DC2626;
+  --brand-red-dark:     #B91C1C;
+  --brand-white:        #FFFFFF;
+
+  /* Superfícies — light mode */
+  --background:         #FFFFFF;
+  --background-subtle:  #FAFAFA;
+  --surface:            #F5F5F5;
+  --border:             #E5E5E5;
+
+  /* Texto — light mode */
+  --foreground:         #171717;
+  --foreground-muted:   #525252;
+
+  /* Focus ring acessível */
+  --focus-ring:         #FACC15;
+
+  /* color-scheme: scrollbar e inputs do browser acompanham o tema */
+  color-scheme: light;
+}
+
+/* ─── Dark mode (via next-themes: class="dark") ───────────── */
+.dark {
+  --background:         #0F0F0F;
+  --background-subtle:  #171717;
+  --surface:            #1E1E1E;
+  --border:             #2D2D2D;
+
+  --foreground:         #F2F2F2;
+  --foreground-muted:   #9A9A9A;
+
+  color-scheme: dark;
+}
+
+/* ─── Tema Tailwind v4 ────────────────────────────────────── */
+@theme inline {
+  --color-background:       var(--background);
+  --color-background-subtle: var(--background-subtle);
+  --color-surface:          var(--surface);
+  --color-border:           var(--border);
+  --color-foreground:       var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+
+  --color-brand-yellow:     var(--brand-yellow);
+  --color-brand-yellow-dark: var(--brand-yellow-dark);
+  --color-brand-red:        var(--brand-red);
+  --color-brand-red-dark:   var(--brand-red-dark);
+  --color-brand-white:      var(--brand-white);
+
+  --font-sans: var(--font-inter);
+}
+
+/* ─── Base ────────────────────────────────────────────────── */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Transição suave ao trocar de tema (light ↔ dark) */
+body,
+header,
+nav,
+footer,
+main,
+aside,
+.pdh-modal-content {
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease;
+}
+
+/* Seleção de texto com a cor da marca */
+::selection {
+  background-color: var(--brand-yellow);
+  color: #171717;
+}
+
+/* Focus visível acessível com anel amarelo da marca */
+*:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ─── Scrollbar customizada ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground-muted);
+}
+
+/* Respeita preferências de movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Utilitário: scrollbar invisível (mantém scroll funcional) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Modal — bottom sheet mobile / dialog desktop ─────────── */
+.pdh-backdrop {
+  animation: pdh-fade-backdrop 0.2s ease-out;
+}
+
+.pdh-modal-content {
+  /* Mobile: bottom sheet */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: auto;
+  z-index: 101;
+  margin: 0;
+  width: 100%;
+  max-height: 85dvh;
+  overflow-y: auto;
+  background-color: var(--surface);
+  color: var(--foreground);
+  border-radius: 1.5rem 1.5rem 0 0;
+  animation: pdh-slide-up 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@keyframes pdh-fade-backdrop {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pdh-slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+  .pdh-modal-content {
+    /* Desktop: dialog centralizado */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    max-width: 28rem;
+    width: 100%;
+    max-height: 90dvh;
+    border-radius: 1rem;
+    animation: pdh-scale-in 0.2s ease-out;
+  }
+
+  @keyframes pdh-scale-in {
+    from { opacity: 0; transform: translate(-50%, -47%) scale(0.96); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+}

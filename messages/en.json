@@ -1,0 +1,102 @@
+{
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "market": "Market",
+    "contact": "Contact"
+  },
+  "theme": {
+    "toggleLight": "Switch to light mode",
+    "toggleDark": "Switch to dark mode"
+  },
+  "language": {
+    "label": "Language",
+    "ptBR": "Português",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "heroTitle": "The best pastel in town",
+    "heroSubtitle": "Fresh, crispy, and full of flavor — made right when you order.",
+    "ctaMenu": "View Menu",
+    "highlightsTitle": "Highlights",
+    "aboutTitle": "About us",
+    "aboutText": "Pastel da Hora is the place where tradition and flavor meet. From the start, our commitment is to deliver fresh and delicious pastéis, made to order with selected ingredients.",
+    "hoursTitle": "Opening hours",
+    "hoursWeekdays": "Monday to Friday: 10am – 10pm",
+    "hoursWeekends": "Saturday and Sunday: 10am – 11pm"
+  },
+  "menu": {
+    "title": "Menu",
+    "categories": {
+      "all": "All",
+      "savory": "Savory",
+      "traditional": "Traditional",
+      "custom": "Build yours",
+      "sweet": "Sweet",
+      "drinks": "Drinks"
+    },
+    "price": "R$ {value}",
+    "viewDetails": "View details",
+    "noItems": "No items found in this category.",
+    "buildAction": "Build"
+  },
+  "market": {
+    "title": "Market"
+  },
+  "footer": {
+    "rights": "© {year} Pastel da Hora. All rights reserved.",
+    "address": "Rua das Pastéis, 123 — Downtown",
+    "phone": "(11) 9 9999-9999"
+  },
+  "accessibility": {
+    "skipToContent": "Skip to content",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "closeModal": "Close modal"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "notFoundDescription": "The page you are looking for does not exist.",
+    "backHome": "Back to home",
+    "generic": "Something went wrong",
+    "tryAgain": "Try again"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Get in touch or find us.",
+    "addressTitle": "Where we are",
+    "addressValue": "Rua das Pastéis, 123 — Downtown, São Paulo — SP",
+    "phoneTitle": "Phone",
+    "phoneValue": "(11) 9 9999-9999",
+    "whatsapp": "Chat on WhatsApp",
+    "hoursTitle": "Opening Hours",
+    "weekdays": "Mon — Fri: 10am to 10pm",
+    "weekends": "Sat — Sun: 10am to 11pm",
+    "socialTitle": "Social Media",
+    "instagram": "@pasteldahora",
+    "mapLink": "View on map"
+  },
+  "metadata": {
+    "homeTitle": "Pastel da Hora — The best pastel in town",
+    "homeDescription": "Digital menu for Pastel da Hora. Fresh and crispy pastels made to order for you.",
+    "menuTitle": "Menu — Pastel da Hora",
+    "menuDescription": "Browse all flavors: savory pastels, sweet pastels, and cold drinks.",
+    "marketTitle": "Market — Pastel da Hora",
+    "marketDescription": "Products and ingredients from Pastel da Hora.",
+    "contactTitle": "Contact — Pastel da Hora",
+    "contactDescription": "Get in touch or visit us. We are waiting for you!"
+  },
+  "builder": {
+    "title": "Build your Pastel",
+    "stepSize": "Choose size",
+    "stepFillings": "Choose fillings",
+    "size5": "Up to 5 fillings",
+    "size8": "Up to 8 fillings",
+    "size5Hint": "Customize with up to 5 fillings — R$ 12.00",
+    "size8Hint": "Customize with up to 8 fillings — R$ 14.00",
+    "back": "Back",
+    "confirm": "Done, place order!",
+    "summarySize": "Size"
+  }
+}

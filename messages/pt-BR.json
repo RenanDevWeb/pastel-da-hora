@@ -1,0 +1,102 @@
+{
+  "nav": {
+    "home": "Início",
+    "menu": "Cardápio",
+    "market": "Mercado",
+    "contact": "Contato"
+  },
+  "theme": {
+    "toggleLight": "Ativar modo claro",
+    "toggleDark": "Ativar modo escuro"
+  },
+  "language": {
+    "label": "Idioma",
+    "ptBR": "Português",
+    "en": "English",
+    "es": "Español"
+  },
+  "home": {
+    "heroTitle": "O melhor pastel da cidade",
+    "heroSubtitle": "Fresquinho, crocante e cheio de sabor, feito na hora para você.",
+    "ctaMenu": "Ver Cardápio",
+    "highlightsTitle": "Destaques",
+    "aboutTitle": "Sobre nós",
+    "aboutText": "O Pastel da Hora é o lugar onde tradição e sabor se encontram. Desde o início, o nosso compromisso é entregar pastéis frescos e saborosos, preparados na hora com ingredientes selecionados.",
+    "hoursTitle": "Horário de funcionamento",
+    "hoursWeekdays": "Segunda a Sexta: 10h às 22h",
+    "hoursWeekends": "Sábado e Domingo: 10h às 23h"
+  },
+  "menu": {
+    "title": "Cardápio",
+    "categories": {
+      "all": "Todos",
+      "savory": "Salgados",
+      "traditional": "Tradicionais",
+      "custom": "Monte o seu",
+      "sweet": "Doces",
+      "drinks": "Bebidas"
+    },
+    "price": "R$ {value}",
+    "viewDetails": "Ver detalhes",
+    "noItems": "Nenhum item encontrado nesta categoria.",
+    "buildAction": "Montar"
+  },
+  "market": {
+    "title": "Mercado"
+  },
+  "footer": {
+    "rights": "© {year} Pastel da Hora. Todos os direitos reservados.",
+    "address": "Rua das Pastéis, 123 — Centro",
+    "phone": "(11) 9 9999-9999"
+  },
+  "accessibility": {
+    "skipToContent": "Pular para o conteúdo",
+    "openMenu": "Abrir menu de navegação",
+    "closeMenu": "Fechar menu de navegação",
+    "closeModal": "Fechar modal"
+  },
+  "errors": {
+    "notFound": "Página não encontrada",
+    "notFoundDescription": "A página que você está procurando não existe.",
+    "backHome": "Voltar para o início",
+    "generic": "Algo deu errado",
+    "tryAgain": "Tentar novamente"
+  },
+  "contact": {
+    "title": "Contato",
+    "subtitle": "Fale com a gente ou nos encontre.",
+    "addressTitle": "Onde estamos",
+    "addressValue": "Rua das Pastéis, 123 — Centro, São Paulo — SP",
+    "phoneTitle": "Telefone",
+    "phoneValue": "(11) 9 9999-9999",
+    "whatsapp": "Chamar no WhatsApp",
+    "hoursTitle": "Funcionamento",
+    "weekdays": "Seg — Sex: 10h às 22h",
+    "weekends": "Sáb — Dom: 10h às 23h",
+    "socialTitle": "Redes Sociais",
+    "instagram": "@pasteldahora",
+    "mapLink": "Ver no mapa"
+  },
+  "metadata": {
+    "homeTitle": "Pastel da Hora — O melhor pastel da cidade",
+    "homeDescription": "Cardápio digital do Pastel da Hora. Pastéis frescos e crocantes feitos na hora para você.",
+    "menuTitle": "Cardápio — Pastel da Hora",
+    "menuDescription": "Veja todos os sabores: pastéis salgados, doces e bebidas geladas.",
+    "marketTitle": "Mercado — Pastel da Hora",
+    "marketDescription": "Produtos e ingredientes do Pastel da Hora.",
+    "contactTitle": "Contato — Pastel da Hora",
+    "contactDescription": "Entre em contato ou nos visite. Estamos esperando por você!"
+  },
+  "builder": {
+    "title": "Monte seu Pastel",
+    "stepSize": "Escolha o tamanho",
+    "stepFillings": "Escolha os recheios",
+    "size5": "Até 5 sabores",
+    "size8": "Até 8 sabores",
+    "size5Hint": "Personalize com até 5 recheios — R$ 12,00",
+    "size8Hint": "Personalize com até 8 recheios — R$ 14,00",
+    "back": "Voltar",
+    "confirm": "Pronto, anotar pedido!",
+    "summarySize": "Tamanho"
+  }
+}
