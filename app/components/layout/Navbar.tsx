@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { Link, usePathname } from '@/i18n/navigation';
-import { ShoppingBasket } from 'lucide-react';
-import DarkModeToggle from './DarkModeToggle';
 import { useCart } from '@/lib/cart/cartContext';
+import { ShoppingBasket } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import DarkModeToggle from './DarkModeToggle';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -36,16 +37,17 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/cardapio"
-          className="flex items-center gap-2 font-extrabold text-xl text-brand-red shrink-0"
+          className="flex items-center shrink-0"
           aria-label="Pastel da Hora — ir para o cardápio"
         >
-          <span
-            className="w-8 h-8 bg-brand-yellow rounded-lg flex items-center justify-center text-neutral-900 text-sm font-black select-none"
-            aria-hidden="true"
-          >
-            P
-          </span>
-          <span className="hidden sm:inline">Pastel da Hora</span>
+          <Image
+            src="https://res.cloudinary.com/exercice-disp/image/upload/v1786052556/WhatsApp_Image_2026-08-06_at_6.12.53_PM_1_qysqkm.jpg"
+            alt="Pastel da Hora"
+            width={44}
+            height={44}
+            className="rounded-xl object-cover border border-brand-yellow/60 shadow-sm sm:h-11 sm:w-11"
+            priority
+          />
         </Link>
 
         <div className="flex-1" aria-hidden="true" />

@@ -1,5 +1,6 @@
-import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
+import Image from 'next/image';
 
 export default async function HeroSection() {
   const t = await getTranslations('home');
@@ -27,9 +28,14 @@ export default async function HeroSection() {
 
       {/* Conteúdo central */}
       <div className="relative z-10 flex flex-col items-center gap-5 max-w-xl mx-auto">
-        <div className="text-7xl md:text-8xl select-none" aria-hidden="true">
-          🥟
-        </div>
+        <Image
+          src="https://res.cloudinary.com/exercice-disp/image/upload/v1786051101/WhatsApp_Image_2026-08-06_at_6.12.53_PM_h4fahm.jpg"
+          alt={t('heroTitle')}
+          width={208}
+          height={208}
+          className="rounded-4xl object-cover border border-white/15 bg-white/5 shadow-2xl md:h-52 md:w-52"
+          priority
+        />
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight tracking-tight">
           {t('heroTitle')}

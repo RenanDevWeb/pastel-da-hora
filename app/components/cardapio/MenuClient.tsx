@@ -106,12 +106,29 @@ export default function MenuClient({ items }: MenuClientProps) {
     setSelectedItem(item);
   }, [storeOpen]);
 
-  const filteredItems = search.trim()
-    ? [...tradicionais, ...doces].filter(
-        (i) =>
-          i.nome.toLowerCase().includes(search.trim().toLowerCase()) ||
-          i.descricao.toLowerCase().includes(search.trim().toLowerCase()),
-      )
+  const normalizedQuery = search.trim().toLowerCase();
+
+  const filteredItems = normalizedQuery
+    ? [
+        ...items.filter(
+          (i) =>
+            i.nome.toLowerCase().includes(normalizedQuery) ||
+            i.descricao.toLowerCase().includes(normalizedQuery) ||
+            i.categoria.toLowerCase().includes(normalizedQuery),
+        ),
+        ...BEBIDA_GRUPOS.filter(
+          (grupo) =>
+            grupo.nome.toLowerCase().includes(normalizedQuery) ||
+            grupo.opcoes.join(' ').toLowerCase().includes(normalizedQuery),
+        ).map((grupo) => ({
+          id: `bebida-${grupo.id}`,
+          nome: grupo.nome,
+          descricao: `Escolha a marca • ${grupo.opcoes.join(' / ')}`,
+          preco: grupo.preco,
+          categoria: 'Bebidas' as const,
+          beverage: grupo,
+        })),
+      ]
     : null;
 
   return (
@@ -157,7 +174,27 @@ export default function MenuClient({ items }: MenuClientProps) {
             <ul>
               {filteredItems.map((item, idx) => (
                 <li key={item.id} className={idx < filteredItems.length - 1 ? 'border-b border-border' : ''}>
-                  <ItemCard item={item} onSelect={handleSelect} />
+                  {'beverage' in item ? (
+                    <button
+                      type="button"
+                      onClick={() => { if (!storeOpen) { notifyClosedAttempt(); return; } setSelectedBebida(item.beverage); }}
+                      className="w-full flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface/60 transition-colors"
+                    >
+                      <div className="flex-1">
+                        <p className="font-semibold text-foreground text-sm">{item.nome}</p>
+                        <p className="text-xs text-foreground-muted mt-0.5 leading-snug">{item.descricao}</p>
+                        <p className="font-bold text-brand-red text-sm mt-1.5">{formatPrice(item.preco)}</p>
+                      </div>
+                      <div
+                        className="w-[72px] h-[72px] rounded-xl bg-gradient-to-br from-brand-yellow/20 to-brand-red/20 flex items-center justify-center shrink-0"
+                        aria-hidden="true"
+                      >
+                        <GlassWater size={26} className="text-brand-yellow" />
+                      </div>
+                    </button>
+                  ) : (
+                    <ItemCard item={item as CardapioItem} onSelect={handleSelect} />
+                  )}
                 </li>
               ))}
             </ul>
