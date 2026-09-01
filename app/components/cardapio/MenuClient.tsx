@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { ChefHat, GlassWater, Search, X } from 'lucide-react';
-import { CardapioItem, Categoria, BEBIDA_GRUPOS, formatPrice } from '@/lib/data/cardapio';
 import type { BebidaGrupo } from '@/lib/data/cardapio';
+import { BEBIDA_GRUPOS, CardapioItem, Categoria, formatPrice } from '@/lib/data/cardapio';
+import { ChefHat, GlassWater, Search, X } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import BebidaSelector from './BebidaSelector';
+import CardapioHero from './CardapioHero';
 import CategoryFilter, { FilterCategory } from './CategoryFilter';
 import ItemCard from './ItemCard';
 import ItemModal from './ItemModal';
 import PastelBuilder from './PastelBuilder';
-import BebidaSelector from './BebidaSelector';
-import CardapioHero from './CardapioHero';
 
 function checkStoreOpen(): boolean {
   const now = new Date();

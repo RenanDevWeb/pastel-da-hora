@@ -1,9 +1,9 @@
 'use client';
 
-import { ShoppingCart, Trash2, Minus, Plus, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
 import { useCart } from '@/lib/cart/cartContext';
 import { formatPrice } from '@/lib/data/cardapio';
+import { Minus, Plus, ShoppingCart, Trash2, X } from 'lucide-react';
+import { useMemo, useState } from 'react';
 
 const WHATSAPP = '5581983657715';
 type PedidoTipo = 'delivery' | 'retirada' | 'mesa';

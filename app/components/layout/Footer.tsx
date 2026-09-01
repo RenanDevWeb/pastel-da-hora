@@ -1,7 +1,7 @@
-import { getTranslations } from 'next-intl/server';
 import { MapPin } from 'lucide-react';
-import SocialMedia from '../ui/SocialMedia';
+import { getTranslations } from 'next-intl/server';
 import BusinessHours from '../ui/BusinessHours';
+import SocialMedia from '../ui/SocialMedia';
 
 export default async function Footer() {
   const t = await getTranslations('footer');
@@ -22,7 +22,15 @@ export default async function Footer() {
               <BusinessHours />
             </div>
             <p className="text-xs text-foreground-muted mt-1">
-              {t('rights', { year })}
+              {t('rights', { year })} Desenvolvido por{' '}
+              <a
+                href="https://rfreitasanjos.github.io/meu-portifolio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-brand-red underline-offset-2 hover:underline"
+              >
+                Renan Freitas
+              </a>
             </p>
           </div>
 
