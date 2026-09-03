@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { X } from 'lucide-react';
 import { useCart } from '@/lib/cart/cartContext';
-import { formatPrice } from '@/lib/data/cardapio';
 import type { BebidaGrupo } from '@/lib/data/cardapio';
+import { formatPrice } from '@/lib/data/cardapio';
+import { X } from 'lucide-react';
+import Image from 'next/image';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface BebidaSelectorProps {
   bebida: BebidaGrupo | null;
@@ -89,23 +90,45 @@ export default function BebidaSelector({ bebida, onClose }: BebidaSelectorProps)
           <p className="text-sm text-foreground-muted">Escolha a marca</p>
 
           <ul className="flex flex-col gap-2">
-            {bebida.opcoes.map((opcao) => (
-              <li key={opcao}>
-                <button
-                  type="button"
-                  onClick={() => setSelected(opcao)}
-                  aria-pressed={selected === opcao}
-                  className={[
-                    'w-full px-4 py-3 rounded-2xl text-sm font-medium text-left transition-all duration-150',
-                    selected === opcao
-                      ? 'bg-brand-yellow text-neutral-900 border border-brand-yellow'
-                      : 'bg-surface border border-border text-foreground hover:border-brand-yellow hover:bg-brand-yellow/5',
-                  ].join(' ')}
-                >
-                  {opcao}
-                </button>
-              </li>
-            ))}
+            {bebida.opcoes.map((opcao) => {
+              const optionImage = bebida.imagensOpcoes[opcao];
+
+              return (
+                <li key={opcao}>
+                  <button
+                    type="button"
+                    onClick={() => setSelected(opcao)}
+                    aria-pressed={selected === opcao}
+                    className={[
+                      'w-full rounded-2xl border px-3 py-2.5 text-left transition-all duration-150',
+                      selected === opcao
+                        ? 'border-brand-yellow bg-brand-yellow text-neutral-900'
+                        : 'border-border bg-surface text-foreground hover:border-brand-yellow hover:bg-brand-yellow/5',
+                    ].join(' ')}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-sm font-medium">{opcao}</span>
+
+                      {optionImage ? (
+                        <div className="relative h-12 w-12 overflow-hidden rounded-xl border border-black/10 bg-white/60 shadow-sm">
+                          <Image
+                            src={optionImage}
+                            alt={opcao}
+                            fill
+                            className="object-cover"
+                            sizes="48px"
+                          />
+                        </div>
+                      ) : (
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-black/5 text-xs font-bold text-foreground-muted">
+                          {opcao.slice(0, 2).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="sticky bottom-0 -mx-5 px-5 pt-4 pb-4 bg-surface border-t border-border mt-2">

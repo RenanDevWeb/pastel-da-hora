@@ -46,6 +46,9 @@
   },
   "footer": {
     "rights": "© {year} Pastel da Hora. All rights reserved.",
+    "developedBy": "Developed by",
+    "instagram": "@pasteldahora",
+    "instagramAria": "Open Instagram @pasteldahora",
     "address": "Rua das Pastéis, 123 — Downtown",
     "phone": "(11) 9 9999-9999"
   },

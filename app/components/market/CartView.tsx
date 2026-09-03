@@ -1,92 +1,98 @@
-'use client';
+"use client";
 
-import { useCart } from '@/lib/cart/cartContext';
-import { formatPrice } from '@/lib/data/cardapio';
-import { Minus, Plus, ShoppingCart, Trash2, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useCart } from "@/lib/cart/cartContext";
+import type { BebidaGrupo } from "@/lib/data/cardapio";
+import { BEBIDA_GRUPOS, formatPrice } from "@/lib/data/cardapio";
+import { Minus, Plus, ShoppingCart, Trash2, X } from "lucide-react";
+import { useMemo, useState } from "react";
+import BebidaSelector from "../cardapio/BebidaSelector";
 
-const WHATSAPP = '5581983657715';
-type PedidoTipo = 'delivery' | 'retirada' | 'mesa';
+const WHATSAPP = "5581983657715";
+type PedidoTipo = "delivery" | "retirada" | "mesa";
 
 const DELIVERY_FEES: Record<string, number> = {
-  'vila rica': 8.5,
-  'santo antonio': 7.5,
-  'bulhoes': 9.5,
-  'cohab': 8.0,
-  'colonia': 10.0,
-  'santa aleixo': 11.0,
-  'padre roma': 9.0,
-  'quadros': 12.5,
-  'alto da fabrica': 13.0,
-  'engenho velho': 14.0,
-  'lote 56': 15.5,
-  'lote 92': 16.0,
-  'vista alegre': 10.5,
-  'malvinas': 11.5,
+  "vila rica": 3,
+  "santo antonio": 4,
+  bulhoes: 5,
+  cohab: 4,
+  colonia: 5,
+  "santa aleixo": 6,
+  "padre roma": 7,
+  quadros: 7,
+  "alto da fabrica": 7,
+  "engenho velho": 8,
+  "lote 56": 8,
+  "lote 92": 5,
+  "vista alegre": 5,
+  malvinas: 6,
 };
 
 const normalizeAddressText = (value: string) =>
   value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .trim();
 
 export default function CartView() {
   const { items, removeItem, updateQty, total, count, clear } = useCart();
-  const [tipoPedido, setTipoPedido] = useState<PedidoTipo>('delivery');
+  const [tipoPedido, setTipoPedido] = useState<PedidoTipo>("delivery");
+  const [selectedBebida, setSelectedBebida] = useState<BebidaGrupo | null>(
+    null,
+  );
   const [isDeliveryModalOpen, setIsDeliveryModalOpen] = useState(false);
   const [isBlockedModalOpen, setIsBlockedModalOpen] = useState(false);
   const [isLoadingCep, setIsLoadingCep] = useState(false);
-  const [cep, setCep] = useState('');
-  const [rua, setRua] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [numero, setNumero] = useState('');
-  const [mesa, setMesa] = useState('');
+  const [cep, setCep] = useState("");
+  const [rua, setRua] = useState("");
+  const [bairro, setBairro] = useState("");
+  const [numero, setNumero] = useState("");
+  const [mesa, setMesa] = useState("");
   const [deliveryFee, setDeliveryFee] = useState(0);
 
   const tipoPedidoLabel: Record<PedidoTipo, string> = {
-    delivery: 'Delivery',
-    retirada: 'Retirada',
-    mesa: 'Mesa',
+    delivery: "Delivery",
+    retirada: "Retirada",
+    mesa: "Mesa",
   };
 
-  const localizacaoEntrega = [rua, numero, bairro].filter(Boolean).join(', ');
-  const totalComEntrega = tipoPedido === 'delivery' ? total + deliveryFee : total;
+  const localizacaoEntrega = [rua, numero, bairro].filter(Boolean).join(", ");
+  const totalComEntrega =
+    tipoPedido === "delivery" ? total + deliveryFee : total;
 
   const pedidoExtra =
-    tipoPedido === 'delivery'
-      ? `\n\n*Tipo: ${tipoPedidoLabel[tipoPedido]}*\n*Endereço: ${localizacaoEntrega || 'Não informado'}*\n*Bairro: ${bairro || 'Não informado'}*\n*Valor do delivery: ${formatPrice(deliveryFee)}*`
-      : tipoPedido === 'mesa'
-        ? `\n\n*Tipo: ${tipoPedidoLabel[tipoPedido]}*\n*Mesa: ${mesa || 'Não informada'}*`
+    tipoPedido === "delivery"
+      ? `\n\n*Tipo: ${tipoPedidoLabel[tipoPedido]}*\n*Endereço: ${localizacaoEntrega || "Não informado"}*\n*Bairro: ${bairro || "Não informado"}*\n*Valor do delivery: ${formatPrice(deliveryFee)}*`
+      : tipoPedido === "mesa"
+        ? `\n\n*Tipo: ${tipoPedidoLabel[tipoPedido]}*\n*Mesa: ${mesa || "Não informada"}*`
         : `\n\n*Tipo: ${tipoPedidoLabel[tipoPedido]}*`;
 
   const whatsappMsg = encodeURIComponent(
-    '🥟 *Pedido — Pastel da Hora*' +
-    pedidoExtra +
-    '\n\n' +
-    items
-      .map(
-        (i) =>
-          `• ${i.quantidade}x ${i.nome}` +
-          (i.detalhes?.length ? `\n  _${i.detalhes.join(', ')}_` : '') +
-          ` — ${formatPrice(i.preco * i.quantidade)}`,
-      )
-      .join('\n') +
-    `\n\n*Total: ${formatPrice(totalComEntrega)}*`,
+    "🥟 *Pedido — Pastel da Hora*" +
+      pedidoExtra +
+      "\n\n" +
+      items
+        .map(
+          (i) =>
+            `• ${i.quantidade}x ${i.nome}` +
+            (i.detalhes?.length ? `\n  _${i.detalhes.join(", ")}_` : "") +
+            ` — ${formatPrice(i.preco * i.quantidade)}`,
+        )
+        .join("\n") +
+      `\n\n*Total: ${formatPrice(totalComEntrega)}*`,
   );
 
   const deliveryFeeLabel = useMemo(
-    () => (tipoPedido === 'delivery' ? `+ ${formatPrice(deliveryFee)}` : ''),
+    () => (tipoPedido === "delivery" ? `+ ${formatPrice(deliveryFee)}` : ""),
     [deliveryFee, tipoPedido],
   );
 
   const pedidoSelecionado =
-    tipoPedido === 'delivery'
+    tipoPedido === "delivery"
       ? Boolean(bairro && rua && numero && deliveryFee > 0)
-      : tipoPedido === 'mesa'
+      : tipoPedido === "mesa"
         ? Boolean(mesa.trim())
-        : tipoPedido === 'retirada';
+        : tipoPedido === "retirada";
 
   const validateDeliveryAddress = (inputBairro: string) => {
     const normalized = normalizeAddressText(inputBairro);
@@ -104,7 +110,7 @@ export default function CartView() {
   };
 
   const handleBuscarCep = async () => {
-    const cleanCep = cep.replace(/\D/g, '');
+    const cleanCep = cep.replace(/\D/g, "");
     if (cleanCep.length !== 8) {
       setIsBlockedModalOpen(true);
       return;
@@ -113,7 +119,9 @@ export default function CartView() {
     setIsLoadingCep(true);
 
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${cleanCep}/json/`);
+      const response = await fetch(
+        `https://viacep.com.br/ws/${cleanCep}/json/`,
+      );
       const data = await response.json();
 
       if (data.erro) {
@@ -124,7 +132,9 @@ export default function CartView() {
       if (data.logradouro) setRua(data.logradouro);
       if (data.bairro) setBairro(data.bairro);
 
-      const bairroValido = data.bairro ? validateDeliveryAddress(data.bairro) : false;
+      const bairroValido = data.bairro
+        ? validateDeliveryAddress(data.bairro)
+        : false;
       if (!bairroValido && data.bairro) {
         setIsBlockedModalOpen(true);
         return;
@@ -135,7 +145,7 @@ export default function CartView() {
         return;
       }
 
-      setTipoPedido('delivery');
+      setTipoPedido("delivery");
       setIsDeliveryModalOpen(false);
     } catch {
       setIsBlockedModalOpen(true);
@@ -153,7 +163,7 @@ export default function CartView() {
     const valid = validateDeliveryAddress(bairro);
     if (!valid) return;
 
-    setTipoPedido('delivery');
+    setTipoPedido("delivery");
     setIsDeliveryModalOpen(false);
   };
 
@@ -166,7 +176,7 @@ export default function CartView() {
           Carrinho
           {count > 0 && (
             <span className="text-sm font-semibold text-foreground-muted">
-              ({count} {count === 1 ? 'item' : 'itens'})
+              ({count} {count === 1 ? "item" : "itens"})
             </span>
           )}
         </h1>
@@ -183,7 +193,11 @@ export default function CartView() {
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 gap-3 text-center">
-          <ShoppingCart size={48} className="text-foreground-muted/30" aria-hidden="true" />
+          <ShoppingCart
+            size={48}
+            className="text-foreground-muted/30"
+            aria-hidden="true"
+          />
           <p className="font-semibold text-foreground-muted">Carrinho vazio</p>
           <p className="text-xs text-foreground-muted">
             Adicione itens do cardápio para começar seu pedido
@@ -191,6 +205,48 @@ export default function CartView() {
         </div>
       ) : (
         <>
+          <div className="mb-6 rounded-2xl border border-border bg-surface/80 p-4">
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-foreground-muted">
+                Complementar pedido
+              </h2>
+              <span className="rounded-full border border-brand-yellow/40 bg-brand-yellow/10 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-brand-yellow-dark">
+                Bebidas
+              </span>
+            </div>
+
+            <div
+              className="overflow-x-auto overflow-y-hidden pb-1"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              <div
+                className="flex min-w-max gap-2 px-0.5"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
+                {BEBIDA_GRUPOS.map((grupo) => (
+                  <button
+                    key={grupo.id}
+                    type="button"
+                    onClick={() => setSelectedBebida(grupo)}
+                    className="group w-[112px] shrink-0 overflow-visible rounded-2xl bg-transparent p-0 text-left"
+                  >
+                    <div className="relative flex min-h-[74px] flex-col justify-between gap-1.5 overflow-visible rounded-2xl border border-border bg-background/60 px-2 py-2.5 transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.04] group-hover:border-brand-yellow group-hover:bg-brand-yellow/5 group-active:scale-[0.98]">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-yellow/15 text-brand-yellow transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
+                        <span className="text-[12px] font-bold">🥤</span>
+                      </div>
+                      <p className="text-[9px] font-semibold leading-tight text-foreground">
+                        {grupo.nome}
+                      </p>
+                      <p className="text-[8px] font-bold text-brand-red">
+                        {formatPrice(grupo.preco)}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Lista de itens */}
           <ul className="flex flex-col gap-3 mb-6">
             {items.map((item) => (
@@ -205,7 +261,7 @@ export default function CartView() {
                     </p>
                     {item.detalhes && item.detalhes.length > 0 && (
                       <p className="text-xs text-foreground-muted mt-0.5 line-clamp-2">
-                        {item.detalhes.join(', ')}
+                        {item.detalhes.join(", ")}
                       </p>
                     )}
                     <p className="font-bold text-brand-red text-sm mt-1.5">
@@ -250,37 +306,41 @@ export default function CartView() {
 
           <div className="border-t border-border pt-4">
             <div className="mb-5">
-              <p className="text-sm font-semibold text-foreground mb-2">Como deseja receber seu pedido?</p>
+              <p className="text-sm font-semibold text-foreground mb-2">
+                Como deseja receber seu pedido?
+              </p>
               <div className="flex gap-2">
-                {([
-                  { value: 'delivery', label: 'Delivery' },
-                  { value: 'retirada', label: 'Retirar' },
-                  { value: 'mesa', label: 'Mesa' },
-                ] as const).map((option) => (
+                {(
+                  [
+                    { value: "delivery", label: "Delivery" },
+                    { value: "retirada", label: "Retirar" },
+                    { value: "mesa", label: "Mesa" },
+                  ] as const
+                ).map((option) => (
                   <button
                     key={option.value}
                     type="button"
                     onClick={() => {
                       setTipoPedido(option.value);
-                      if (option.value === 'delivery') {
+                      if (option.value === "delivery") {
                         setIsDeliveryModalOpen(true);
                       } else {
                         setDeliveryFee(0);
                       }
                     }}
                     className={[
-                      'flex-1 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors',
+                      "flex-1 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors",
                       tipoPedido === option.value
-                        ? 'border-brand-yellow bg-brand-yellow text-neutral-900'
-                        : 'border-border bg-surface text-foreground-muted hover:border-brand-yellow hover:text-foreground',
-                    ].join(' ')}
+                        ? "border-brand-yellow bg-brand-yellow text-neutral-900"
+                        : "border-border bg-surface text-foreground-muted hover:border-brand-yellow hover:text-foreground",
+                    ].join(" ")}
                   >
                     {option.label}
                   </button>
                 ))}
               </div>
 
-              {tipoPedido === 'mesa' && (
+              {tipoPedido === "mesa" && (
                 <label className="mt-3 block">
                   <span className="mb-1.5 block text-xs font-medium text-foreground-muted">
                     Informe o nome da mesa
@@ -295,15 +355,20 @@ export default function CartView() {
                 </label>
               )}
 
-              {tipoPedido === 'delivery' && deliveryFee > 0 && (
+              {tipoPedido === "delivery" && deliveryFee > 0 && (
                 <div className="mt-3 rounded-xl border border-brand-yellow/30 bg-brand-yellow/10 px-3 py-2 text-xs text-foreground">
-                  Delivery para <span className="font-semibold">{bairro}</span>: <span className="font-bold text-brand-red">{formatPrice(deliveryFee)}</span>
+                  Delivery para <span className="font-semibold">{bairro}</span>:{" "}
+                  <span className="font-bold text-brand-red">
+                    {formatPrice(deliveryFee)}
+                  </span>
                 </div>
               )}
             </div>
 
             <div className="flex items-center justify-between mb-5">
-              <span className="text-sm text-foreground-muted font-medium">Total do pedido</span>
+              <span className="text-sm text-foreground-muted font-medium">
+                Total do pedido
+              </span>
               <span className="text-2xl font-extrabold text-brand-red">
                 {formatPrice(totalComEntrega)}
               </span>
@@ -318,20 +383,27 @@ export default function CartView() {
             )}
 
             <a
-              href={pedidoSelecionado ? `https://wa.me/${WHATSAPP}?text=${whatsappMsg}` : undefined}
-              target={pedidoSelecionado ? '_blank' : undefined}
-              rel={pedidoSelecionado ? 'noopener noreferrer' : undefined}
+              href={
+                pedidoSelecionado
+                  ? `https://wa.me/${WHATSAPP}?text=${whatsappMsg}`
+                  : undefined
+              }
+              target={pedidoSelecionado ? "_blank" : undefined}
+              rel={pedidoSelecionado ? "noopener noreferrer" : undefined}
               onClick={(event) => {
                 if (!pedidoSelecionado) {
                   event.preventDefault();
+                  return;
                 }
+
+                clear();
               }}
               className={[
-                'flex items-center justify-center w-full py-3.5 rounded-2xl font-bold text-base transition-all duration-150',
+                "flex items-center justify-center w-full py-3.5 rounded-2xl font-bold text-base transition-all duration-150",
                 pedidoSelecionado
-                  ? 'bg-brand-red text-white hover:brightness-110'
-                  : 'bg-border text-foreground-muted cursor-not-allowed',
-              ].join(' ')}
+                  ? "bg-brand-red text-white hover:brightness-110"
+                  : "bg-border text-foreground-muted cursor-not-allowed",
+              ].join(" ")}
               aria-disabled={!pedidoSelecionado}
             >
               Fazer pedido no WhatsApp
@@ -342,7 +414,9 @@ export default function CartView() {
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
               <div className="w-full max-w-md rounded-3xl border border-border bg-surface p-5 shadow-2xl">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-lg font-extrabold text-foreground">Dados para entrega</h2>
+                  <h2 className="text-lg font-extrabold text-foreground">
+                    Dados para entrega
+                  </h2>
                   <button
                     type="button"
                     onClick={() => setIsDeliveryModalOpen(false)}
@@ -355,7 +429,9 @@ export default function CartView() {
 
                 <div className="space-y-3">
                   <label className="block">
-                    <span className="mb-1.5 block text-xs font-medium text-foreground-muted">CEP</span>
+                    <span className="mb-1.5 block text-xs font-medium text-foreground-muted">
+                      CEP
+                    </span>
                     <div className="flex gap-2">
                       <input
                         type="text"
@@ -370,13 +446,15 @@ export default function CartView() {
                         disabled={isLoadingCep}
                         className="rounded-xl bg-brand-red px-3 py-2.5 text-xs font-bold text-white disabled:opacity-60"
                       >
-                        {isLoadingCep ? 'Buscando...' : 'Buscar'}
+                        {isLoadingCep ? "Buscando..." : "Buscar"}
                       </button>
                     </div>
                   </label>
 
                   <label className="block">
-                    <span className="mb-1.5 block text-xs font-medium text-foreground-muted">Rua</span>
+                    <span className="mb-1.5 block text-xs font-medium text-foreground-muted">
+                      Rua
+                    </span>
                     <input
                       type="text"
                       value={rua}
@@ -388,7 +466,9 @@ export default function CartView() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <label className="block">
-                      <span className="mb-1.5 block text-xs font-medium text-foreground-muted">Bairro</span>
+                      <span className="mb-1.5 block text-xs font-medium text-foreground-muted">
+                        Bairro
+                      </span>
                       <input
                         type="text"
                         value={bairro}
@@ -399,7 +479,9 @@ export default function CartView() {
                     </label>
 
                     <label className="block">
-                      <span className="mb-1.5 block text-xs font-medium text-foreground-muted">Número</span>
+                      <span className="mb-1.5 block text-xs font-medium text-foreground-muted">
+                        Número
+                      </span>
                       <input
                         type="text"
                         value={numero}
@@ -425,10 +507,15 @@ export default function CartView() {
           {isBlockedModalOpen && (
             <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 px-4">
               <div className="w-full max-w-sm rounded-3xl border border-border bg-surface p-5 text-center shadow-2xl">
-                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-red/10 text-2xl">!</div>
-                <h3 className="text-lg font-extrabold text-foreground">Entrega indisponível</h3>
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-brand-red/10 text-2xl">
+                  !
+                </div>
+                <h3 className="text-lg font-extrabold text-foreground">
+                  Entrega indisponível
+                </h3>
                 <p className="mt-2 text-sm text-foreground-muted">
-                  Neste momento não fazemos delivery para esse endereço. Por favor, escolha outra opção de pedido.
+                  Neste momento não fazemos delivery para esse endereço. Por
+                  favor, escolha outra opção de pedido.
                 </p>
                 <button
                   type="button"
@@ -439,6 +526,13 @@ export default function CartView() {
                 </button>
               </div>
             </div>
+          )}
+
+          {selectedBebida && (
+            <BebidaSelector
+              bebida={selectedBebida}
+              onClose={() => setSelectedBebida(null)}
+            />
           )}
         </>
       )}

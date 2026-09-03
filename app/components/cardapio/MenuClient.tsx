@@ -2,7 +2,8 @@
 
 import type { BebidaGrupo } from '@/lib/data/cardapio';
 import { BEBIDA_GRUPOS, CardapioItem, Categoria, formatPrice } from '@/lib/data/cardapio';
-import { ChefHat, GlassWater, Search, X } from 'lucide-react';
+import { GlassWater, Search, X } from 'lucide-react';
+import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import BebidaSelector from './BebidaSelector';
 import CardapioHero from './CardapioHero';
@@ -236,10 +237,16 @@ export default function MenuClient({ items }: MenuClientProps) {
                 <p className="font-bold text-brand-red text-sm mt-1.5">a partir de R$ 12,00</p>
               </div>
               <div
-                className="w-[72px] h-[72px] rounded-xl bg-gradient-to-br from-brand-yellow/20 to-brand-red/20 flex items-center justify-center shrink-0"
+                className="w-[72px] h-[72px] rounded-xl overflow-hidden bg-gradient-to-br from-brand-yellow/20 to-brand-red/20 flex items-center justify-center shrink-0"
                 aria-hidden="true"
               >
-                <ChefHat size={26} className="text-brand-yellow" />
+                <Image
+                  src="https://res.cloudinary.com/exercice-disp/image/upload/v1788400743/pastel_tradicional_sif8fk.png"
+                  alt=""
+                  width={72}
+                  height={72}
+                  className="h-full w-full object-cover"
+                />
               </div>
             </button>
           </li>
@@ -274,41 +281,56 @@ export default function MenuClient({ items }: MenuClientProps) {
         </ul>
       </section>
 
-      {/* ── Bebidas — 3 cards por grupo ──────────────────────── */}
-      <section ref={(el) => { sectionRefs.current.set('Bebidas', el); }}>
+      {/* ── Bebidas ─────────────────────────────────────────── */}
+      <section ref={(el) => { sectionRefs.current.set('Bebidas', el); }} className="pb-0">
         <h2 className="px-4 pt-5 pb-2 text-xs font-bold text-foreground-muted uppercase tracking-widest">
           Bebidas
         </h2>
-        <ul>
-          {BEBIDA_GRUPOS.map((grupo, idx) => (
-            <li
-              key={grupo.id}
-              className={idx < BEBIDA_GRUPOS.length - 1 ? 'border-b border-border' : ''}
-            >
-              <button
-                type="button"
-                onClick={() => { if (!storeOpen) { notifyClosedAttempt(); return; } setSelectedBebida(grupo); }}
-                className="w-full flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface/60 transition-colors"
-              >
-                <div className="flex-1">
-                  <p className="font-semibold text-foreground text-sm">{grupo.nome}</p>
-                  <p className="text-xs text-foreground-muted mt-0.5 leading-snug">
-                    Escolha a marca
-                  </p>
-                  <p className="font-bold text-brand-red text-sm mt-1.5">
-                    {formatPrice(grupo.preco)}
-                  </p>
-                </div>
-                <div
-                  className="w-[72px] h-[72px] rounded-xl bg-gradient-to-br from-brand-yellow/20 to-brand-red/20 flex items-center justify-center shrink-0"
-                  aria-hidden="true"
+        <div
+          className="overflow-x-auto overflow-y-hidden pb-1 min-[720px]:overflow-visible"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <ul className="flex min-w-max gap-2 px-3 pb-0 min-[720px]:min-w-0 min-[720px]:flex-col min-[720px]:gap-0" style={{ WebkitOverflowScrolling: 'touch' }}>
+            {BEBIDA_GRUPOS.map((grupo) => (
+              <li key={grupo.id} className="w-[118px] shrink-0 min-[720px]:w-full min-[720px]:border-b min-[720px]:border-border last:min-[720px]:border-b-0">
+                <button
+                  type="button"
+                  onClick={() => { if (!storeOpen) { notifyClosedAttempt(); return; } setSelectedBebida(grupo); }}
+                  className="group block w-full overflow-visible rounded-2xl bg-transparent p-0 text-left min-[720px]:flex min-[720px]:items-start min-[720px]:gap-3 min-[720px]:px-4 min-[720px]:py-3.5"
                 >
-                  <GlassWater size={26} className="text-brand-yellow" />
-                </div>
-              </button>
-            </li>
-          ))}
-        </ul>
+                  <div className="hidden min-[720px]:flex min-[720px]:flex-1 min-[720px]:items-start min-[720px]:gap-3">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground text-sm leading-snug">{grupo.nome}</p>
+                      <p className="text-xs text-foreground-muted mt-0.5 leading-relaxed">
+                        Escolha a marca: {grupo.opcoes.join(' / ')}
+                      </p>
+                      <p className="font-bold text-brand-red text-sm mt-1.5">{formatPrice(grupo.preco)}</p>
+                    </div>
+                    <div className="relative w-[72px] h-[72px] overflow-hidden rounded-xl bg-gradient-to-br from-brand-yellow/20 to-brand-red/20 flex items-center justify-center shrink-0" aria-hidden="true">
+                      <Image src={grupo.imagem} alt="" fill sizes="72px" className="object-cover" />
+                    </div>
+                  </div>
+
+                  <div className="relative flex min-h-[72px] flex-col justify-between gap-2 overflow-hidden rounded-2xl border border-border bg-surface/80 px-2.5 py-3 shadow-sm transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.04] group-hover:border-brand-yellow group-hover:bg-brand-yellow/5 group-active:scale-[0.98] min-[720px]:hidden">
+                    <Image src={grupo.imagem} alt="" fill sizes="118px" className="object-cover opacity-30" />
+                    <div className="absolute inset-0 bg-surface/45" aria-hidden="true" />
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="relative z-10 flex h-7 w-7 items-center justify-center rounded-full bg-brand-yellow/15 text-brand-yellow transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
+                        <GlassWater size={14} aria-hidden="true" />
+                      </div>
+                    </div>
+
+                    <div className="relative z-10">
+                      <p className="font-semibold text-foreground text-[10px] leading-tight">{grupo.nome}</p>
+                      <p className="mt-1 text-[9px] text-foreground-muted">Escolha a marca</p>
+                      <p className="font-bold text-brand-red text-[10px] mt-1.5">{formatPrice(grupo.preco)}</p>
+                    </div>
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       </>
@@ -319,7 +341,7 @@ export default function MenuClient({ items }: MenuClientProps) {
         <div className="fixed bottom-[108px] md:bottom-8 inset-x-4 z-[200] pointer-events-none">
           <div className="max-w-sm mx-auto bg-neutral-900 text-white text-sm px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-neutral-400 shrink-0" aria-hidden="true" />
-            <span>Loja fechada. Voltamos às 10h! 🙏</span>
+            <span>Loja fechada. Voltamos às 18h! 🙏</span>
           </div>
         </div>
       )}

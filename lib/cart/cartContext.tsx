@@ -1,8 +1,12 @@
 'use client';
 
 import {
-  createContext, useContext, useState, useCallback,
-  useEffect, type ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
 } from 'react';
 
 export interface CartItem {
@@ -58,7 +62,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const clear = useCallback(() => setItems([]), []);
+  const clear = useCallback(() => {
+    setItems([]);
+    try {
+      localStorage.setItem(STORAGE_KEY, '[]');
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const total = items.reduce((s, i) => s + i.preco * i.quantidade, 0);
   const count = items.reduce((s, i) => s + i.quantidade, 0);
