@@ -7,6 +7,7 @@ import type { LucideIcon } from 'lucide-react';
 import { CardapioItem, formatPrice } from '@/lib/data/cardapio';
 import type { Categoria } from '@/lib/data/cardapio';
 import { useCart } from '@/lib/cart/cartContext';
+import Image from 'next/image';
 
 const CATEGORY_ICON: Record<Categoria, LucideIcon> = {
   'Pastéis Tradicionais': UtensilsCrossed,
@@ -109,12 +110,22 @@ export default function ItemModal({ item, onClose }: ItemModalProps) {
 
         {/* Corpo */}
         <div className="p-5 flex flex-col gap-4">
-          {/* Imagem placeholder */}
+          {/* Imagem do item */}
           <div
-            className="w-full h-52 rounded-2xl bg-gradient-to-br from-brand-yellow/20 to-brand-red/20 flex items-center justify-center"
+            className="relative w-full h-52 overflow-hidden rounded-2xl bg-gradient-to-br from-brand-yellow/20 to-brand-red/20 flex items-center justify-center"
             aria-hidden="true"
           >
-            <CategoryIcon size={72} className="text-brand-yellow/60" />
+            {item.img ? (
+              <Image
+                src={item.img}
+                alt=""
+                fill
+                sizes="(max-width: 768px) 100vw, 32rem"
+                className="object-cover"
+              />
+            ) : (
+              <CategoryIcon size={72} className="text-brand-yellow/60" />
+            )}
           </div>
 
           {/* Badge de categoria */}

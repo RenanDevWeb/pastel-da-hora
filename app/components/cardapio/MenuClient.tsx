@@ -287,7 +287,7 @@ export default function MenuClient({ items }: MenuClientProps) {
           Bebidas
         </h2>
         <div
-          className="overflow-x-auto overflow-y-hidden pb-1 min-[720px]:overflow-visible"
+          className="overflow-x-auto overflow-y-hidden py-3 min-[720px]:overflow-visible"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           <ul className="flex min-w-max gap-2 px-3 pb-0 min-[720px]:min-w-0 min-[720px]:flex-col min-[720px]:gap-0" style={{ WebkitOverflowScrolling: 'touch' }}>
@@ -311,7 +311,7 @@ export default function MenuClient({ items }: MenuClientProps) {
                     </div>
                   </div>
 
-                  <div className="relative flex min-h-[72px] flex-col justify-between gap-2 overflow-hidden rounded-2xl border border-border bg-surface/80 px-2.5 py-3 shadow-sm transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.04] group-hover:border-brand-yellow group-hover:bg-brand-yellow/5 group-active:scale-[0.98] min-[720px]:hidden">
+                  <div className="relative flex min-h-[80px] flex-col justify-between gap-2 overflow-hidden rounded-2xl border border-border bg-surface/80 px-2.5 py-3 shadow-sm transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.04] group-hover:border-brand-yellow group-hover:bg-brand-yellow/5 group-active:scale-[0.98] min-[720px]:hidden">
                     <Image src={grupo.imagem} alt="" fill sizes="118px" className="object-cover opacity-30" />
                     <div className="absolute inset-0 bg-surface/45" aria-hidden="true" />
                     <div className="flex items-center justify-between gap-2">

@@ -4,10 +4,13 @@ import { useCart } from "@/lib/cart/cartContext";
 import type { BebidaGrupo } from "@/lib/data/cardapio";
 import { BEBIDA_GRUPOS, formatPrice } from "@/lib/data/cardapio";
 import { Minus, Plus, ShoppingCart, Trash2, X } from "lucide-react";
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import BebidaSelector from "../cardapio/BebidaSelector";
 
-const WHATSAPP = "5581983657715";
+const WHATSAPP = "5581984758031";
+const ORDER_COUNTER_KEY = "pdh-next-order-number";
+let sessionOrderNumber = 0;
 type PedidoTipo = "delivery" | "retirada" | "mesa";
 
 const DELIVERY_FEES: Record<string, number> = {
@@ -67,20 +70,25 @@ export default function CartView() {
         ? `\n\n*Tipo: ${tipoPedidoLabel[tipoPedido]}*\n*Mesa: ${mesa || "Não informada"}*`
         : `\n\n*Tipo: ${tipoPedidoLabel[tipoPedido]}*`;
 
-  const whatsappMsg = encodeURIComponent(
-    "🥟 *Pedido — Pastel da Hora*" +
-      pedidoExtra +
-      "\n\n" +
-      items
-        .map(
-          (i) =>
-            `• ${i.quantidade}x ${i.nome}` +
-            (i.detalhes?.length ? `\n  _${i.detalhes.join(", ")}_` : "") +
-            ` — ${formatPrice(i.preco * i.quantidade)}`,
-        )
-        .join("\n") +
-      `\n\n*Total: ${formatPrice(totalComEntrega)}*`,
-  );
+  const createWhatsAppUrl = (numeroPedido: number) => {
+    const whatsappMsg = encodeURIComponent(
+      "🥟 *Pedido — Pastel da Hora*" +
+        `\n*Número do pedido: #${numeroPedido}*` +
+        pedidoExtra +
+        "\n\n" +
+        items
+          .map(
+            (i) =>
+              `• ${i.quantidade}x ${i.nome}` +
+              (i.detalhes?.length ? `\n  _${i.detalhes.join(", ")}_` : "") +
+              ` — ${formatPrice(i.preco * i.quantidade)}`,
+          )
+          .join("\n") +
+        `\n\n*Total: ${formatPrice(totalComEntrega)}*`,
+    );
+
+    return `https://wa.me/${WHATSAPP}?text=${whatsappMsg}`;
+  };
 
   const deliveryFeeLabel = useMemo(
     () => (tipoPedido === "delivery" ? `+ ${formatPrice(deliveryFee)}` : ""),
@@ -205,48 +213,6 @@ export default function CartView() {
         </div>
       ) : (
         <>
-          <div className="mb-6 rounded-2xl border border-border bg-surface/80 p-4">
-            <div className="mb-3 flex items-center justify-between gap-2">
-              <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-foreground-muted">
-                Complementar pedido
-              </h2>
-              <span className="rounded-full border border-brand-yellow/40 bg-brand-yellow/10 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-brand-yellow-dark">
-                Bebidas
-              </span>
-            </div>
-
-            <div
-              className="overflow-x-auto overflow-y-hidden pb-1"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            >
-              <div
-                className="flex min-w-max gap-2 px-0.5"
-                style={{ WebkitOverflowScrolling: "touch" }}
-              >
-                {BEBIDA_GRUPOS.map((grupo) => (
-                  <button
-                    key={grupo.id}
-                    type="button"
-                    onClick={() => setSelectedBebida(grupo)}
-                    className="group w-[112px] shrink-0 overflow-visible rounded-2xl bg-transparent p-0 text-left"
-                  >
-                    <div className="relative flex min-h-[74px] flex-col justify-between gap-1.5 overflow-visible rounded-2xl border border-border bg-background/60 px-2 py-2.5 transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.04] group-hover:border-brand-yellow group-hover:bg-brand-yellow/5 group-active:scale-[0.98]">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-yellow/15 text-brand-yellow transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
-                        <span className="text-[12px] font-bold">🥤</span>
-                      </div>
-                      <p className="text-[9px] font-semibold leading-tight text-foreground">
-                        {grupo.nome}
-                      </p>
-                      <p className="text-[8px] font-bold text-brand-red">
-                        {formatPrice(grupo.preco)}
-                      </p>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* Lista de itens */}
           <ul className="flex flex-col gap-3 mb-6">
             {items.map((item) => (
@@ -303,6 +269,63 @@ export default function CartView() {
               </li>
             ))}
           </ul>
+
+          <div className="mb-6 rounded-2xl border border-border bg-surface/80 p-4">
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-foreground-muted">
+                Sugestões
+              </h2>
+              <span className="rounded-full border border-brand-yellow/40 bg-brand-yellow/10 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-brand-yellow-dark">
+                Bebidas
+              </span>
+            </div>
+
+            <div
+              className="overflow-x-auto overflow-y-hidden px-1 py-3 min-[720px]:overflow-visible"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              <div
+                className="flex min-w-max gap-2 px-0.5 min-[720px]:min-w-0 min-[720px]:flex-col min-[720px]:gap-0"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
+                {BEBIDA_GRUPOS.map((grupo) => (
+                  <div key={grupo.id} className="w-[118px] shrink-0 min-[720px]:w-full min-[720px]:border-b min-[720px]:border-border last:min-[720px]:border-b-0">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedBebida(grupo)}
+                      className="group block w-full overflow-visible rounded-2xl bg-transparent p-0 text-left min-[720px]:flex min-[720px]:items-start min-[720px]:gap-3 min-[720px]:px-4 min-[720px]:py-3.5"
+                    >
+                      <div className="hidden min-[720px]:flex min-[720px]:flex-1 min-[720px]:items-start min-[720px]:gap-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-semibold leading-snug text-foreground">{grupo.nome}</p>
+                          <p className="mt-0.5 text-xs leading-relaxed text-foreground-muted">
+                            Escolha a marca: {grupo.opcoes.join(" / ")}
+                          </p>
+                          <p className="mt-1.5 text-sm font-bold text-brand-red">{formatPrice(grupo.preco)}</p>
+                        </div>
+                        <div className="relative flex h-[72px] w-[72px] shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand-yellow/20 to-brand-red/20" aria-hidden="true">
+                          <Image src={grupo.imagem} alt="" fill sizes="72px" className="object-cover" />
+                        </div>
+                      </div>
+
+                      <div className="relative flex min-h-[80px] flex-col justify-between gap-2 overflow-hidden rounded-2xl border border-border bg-surface/80 px-2.5 py-3 shadow-sm transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:scale-[1.04] group-hover:border-brand-yellow group-hover:bg-brand-yellow/5 group-active:scale-[0.98] min-[720px]:hidden">
+                        <Image src={grupo.imagem} alt="" fill sizes="118px" className="object-cover opacity-30" />
+                        <div className="absolute inset-0 bg-surface/45" aria-hidden="true" />
+                        <div className="relative z-10 flex h-7 w-7 items-center justify-center rounded-full bg-brand-yellow/15 text-brand-yellow transition-transform duration-200 group-hover:scale-110 group-active:scale-95">
+                          <span className="text-[12px] font-bold">🥤</span>
+                        </div>
+                        <div className="relative z-10">
+                          <p className="text-[10px] font-semibold leading-tight text-foreground">{grupo.nome}</p>
+                          <p className="mt-1 text-[9px] text-foreground-muted">Escolha a marca</p>
+                          <p className="mt-1.5 text-[10px] font-bold text-brand-red">{formatPrice(grupo.preco)}</p>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <div className="border-t border-border pt-4">
             <div className="mb-5">
@@ -383,19 +406,26 @@ export default function CartView() {
             )}
 
             <a
-              href={
-                pedidoSelecionado
-                  ? `https://wa.me/${WHATSAPP}?text=${whatsappMsg}`
-                  : undefined
-              }
-              target={pedidoSelecionado ? "_blank" : undefined}
-              rel={pedidoSelecionado ? "noopener noreferrer" : undefined}
+              href={pedidoSelecionado ? "#" : undefined}
               onClick={(event) => {
+                event.preventDefault();
                 if (!pedidoSelecionado) {
-                  event.preventDefault();
                   return;
                 }
 
+                let numeroPedido = 1;
+                try {
+                  const ultimoNumero = Number(localStorage.getItem(ORDER_COUNTER_KEY));
+                  numeroPedido = Number.isInteger(ultimoNumero) && ultimoNumero > 0
+                    ? ultimoNumero + 1
+                    : 1;
+                  localStorage.setItem(ORDER_COUNTER_KEY, String(numeroPedido));
+                } catch {
+                  sessionOrderNumber += 1;
+                  numeroPedido = sessionOrderNumber;
+                }
+
+                window.open(createWhatsAppUrl(numeroPedido), "_blank", "noopener,noreferrer");
                 clear();
               }}
               className={[

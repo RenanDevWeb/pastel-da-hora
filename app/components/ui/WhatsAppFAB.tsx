@@ -1,6 +1,6 @@
 'use client';
 
-const PHONE = '5581999999999';
+const PHONE = '5581984758031';
 const MSG = encodeURIComponent('Olá! Gostaria de fazer um pedido no Pastel da Hora. 🥟');
 
 export default function WhatsAppFAB() {
