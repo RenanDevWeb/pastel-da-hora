@@ -27,7 +27,7 @@ export default async function Footer() {
             </div>
 
             <a
-              href="https://www.instagram.com/pasteldahora/"
+              href="https://www.instagram.com/pasteldahora98"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t("instagramAria")}
